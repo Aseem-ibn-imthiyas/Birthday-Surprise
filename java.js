@@ -11,7 +11,7 @@ const imageContainer = document.querySelector(".image-container");
 // Wait for the DOM to be fully loaded
 document.addEventListener("DOMContentLoaded", () => {
     // Make sure the audio starts muted initially (to allow autoplay on mobile)
-    backgroundMusic.muted = true;
+    backgroundMusic.muted = false;
     
     // Event listener for the surprise button
     surpriseButton.addEventListener("click", () => {
