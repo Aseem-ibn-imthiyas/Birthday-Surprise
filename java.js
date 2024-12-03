@@ -10,50 +10,28 @@ const imageContainer = document.querySelector(".image-container");
 
 // Wait for the DOM to be fully loaded
 document.addEventListener("DOMContentLoaded", () => {
-    // Play muted audio on page load (autoplay is allowed when muted)
-    backgroundMusic.play().catch(() => {
-        console.warn("Autoplay was blocked. Waiting for user interaction.");
-    });
+    // Make sure the audio starts muted initially (to allow autoplay on mobile)
+    backgroundMusic.muted = true;
+    
+    // Event listener for the surprise button
+    surpriseButton.addEventListener("click", () => {
+        // Hide the surprise button after it's clicked
+        surpriseButton.style.display = "none";
+        
+        // Make the image container visible with a border animation
+        imageContainer.classList.add("show");
 
-    // Create a button that prompts the user to start the music
-    const playButton = document.createElement("button");
-    playButton.textContent = "Tap to Start Music 🎵";
-    playButton.style.cssText = `
-        position: absolute; 
-        top: 50%; 
-        left: 50%; 
-        transform: translate(-50%, -50%); 
-        padding: 10px 20px; 
-        font-size: 18px;
-        background-color: #ff1493;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    `;
-    document.body.appendChild(playButton);
-
-    // On user interaction (button click), unmute and start the audio
-    playButton.addEventListener("click", () => {
-        backgroundMusic.muted = false;  // Unmute the audio
+        // Start the audio
         backgroundMusic.play().then(() => {
-            playButton.remove();  // Remove the button once audio starts playing
+            // Unmute the audio after it's started
+            backgroundMusic.muted = false;
         }).catch((err) => {
             console.error("Audio playback failed:", err);
         });
+
+        // Start the image slideshow
+        showNextImage();
     });
-});
-
-// Event listener for the surprise button
-surpriseButton.addEventListener("click", () => {
-    // Hide the button after it's clicked
-    surpriseButton.style.display = "none";
-
-    // Make the image container visible with a border animation
-    imageContainer.classList.add("show");
-
-    // Start the image slideshow
-    showNextImage();
 });
 
 // Function to handle image transitions
