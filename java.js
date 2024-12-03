@@ -9,11 +9,44 @@ const backgroundMusic = document.getElementById("backgroundMusic");
 const imageContainer = document.querySelector(".image-container");
 
 // Ensure background music plays on page load
-window.onload = () => {
+// Wait for the DOM to be fully loaded
+document.addEventListener("DOMContentLoaded", () => {
+    const backgroundMusic = document.getElementById("backgroundMusic");
+    
+    // Create a button that prompts the user to start the music
+    const playButton = document.createElement("button");
+    playButton.textContent = "Tap to Start Music 🎵";
+    playButton.style.cssText = `
+        position: absolute; 
+        top: 50%; 
+        left: 50%; 
+        transform: translate(-50%, -50%); 
+        padding: 10px 20px; 
+        font-size: 18px;
+        background-color: #ff1493;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    `;
+    document.body.appendChild(playButton);
+
+    // Play muted audio on page load
     backgroundMusic.play().catch(() => {
-        console.warn("Autoplay was blocked. User interaction required.");
+        console.warn("Autoplay was blocked. Waiting for user interaction.");
     });
-};
+
+    // On user interaction (button click), unmute and start the audio
+    playButton.addEventListener("click", () => {
+        backgroundMusic.muted = false;  // Unmute the audio
+        backgroundMusic.play().then(() => {
+            playButton.remove();  // Remove the button once audio starts playing
+        }).catch((err) => {
+            console.error("Audio playback failed:", err);
+        });
+    });
+});
+
 
 // Event listener for the surprise button
 surpriseButton.addEventListener("click", () => {
