@@ -8,11 +8,13 @@ const surpriseButton = document.getElementById("surpriseButton");
 const backgroundMusic = document.getElementById("backgroundMusic");
 const imageContainer = document.querySelector(".image-container");
 
-// Ensure background music plays on page load
 // Wait for the DOM to be fully loaded
 document.addEventListener("DOMContentLoaded", () => {
-    const backgroundMusic = document.getElementById("backgroundMusic");
-    
+    // Play muted audio on page load (autoplay is allowed when muted)
+    backgroundMusic.play().catch(() => {
+        console.warn("Autoplay was blocked. Waiting for user interaction.");
+    });
+
     // Create a button that prompts the user to start the music
     const playButton = document.createElement("button");
     playButton.textContent = "Tap to Start Music 🎵";
@@ -31,11 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
     document.body.appendChild(playButton);
 
-    // Play muted audio on page load
-    backgroundMusic.play().catch(() => {
-        console.warn("Autoplay was blocked. Waiting for user interaction.");
-    });
-
     // On user interaction (button click), unmute and start the audio
     playButton.addEventListener("click", () => {
         backgroundMusic.muted = false;  // Unmute the audio
@@ -46,7 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
-
 
 // Event listener for the surprise button
 surpriseButton.addEventListener("click", () => {
@@ -74,10 +70,10 @@ function showNextImage() {
 
         // Move to the next image after 4 seconds
         currentIndex++;
-        setTimeout(showNextImage, 4000);
+        setTimeout(showNextImage, 4000); // Continue to next image after 4 seconds
     } else {
         // Reset index and loop the slideshow
         currentIndex = 0;
-        setTimeout(showNextImage, 4000);
+        setTimeout(showNextImage, 4000); // Loop the slideshow
     }
 }
