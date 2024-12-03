@@ -8,30 +8,22 @@ const surpriseButton = document.getElementById("surpriseButton");
 const backgroundMusic = document.getElementById("backgroundMusic");
 const imageContainer = document.querySelector(".image-container");
 
-// Wait for the DOM to be fully loaded
-document.addEventListener("DOMContentLoaded", () => {
-    // Make sure the audio starts muted initially (to allow autoplay on mobile)
-    backgroundMusic.muted = false;
+// Event listener for the surprise button
+surpriseButton.addEventListener("click", () => {
+    // Hide the surprise button after it's clicked
+    surpriseButton.style.display = "none";
     
-    // Event listener for the surprise button
-    surpriseButton.addEventListener("click", () => {
-        // Hide the surprise button after it's clicked
-        surpriseButton.style.display = "none";
-        
-        // Make the image container visible with a border animation
-        imageContainer.classList.add("show");
+    // Make the image container visible with a border animation
+    imageContainer.classList.add("show");
 
-        // Start the audio
-        backgroundMusic.play().then(() => {
-            // Unmute the audio after it's started
-            backgroundMusic.muted = false;
-        }).catch((err) => {
-            console.error("Audio playback failed:", err);
-        });
-
-        // Start the image slideshow
-        showNextImage();
+    // Play the audio (unmute and play it when the button is clicked)
+    backgroundMusic.muted = false;  // Unmute the audio
+    backgroundMusic.play().catch((err) => {
+        console.error("Audio playback failed:", err);
     });
+
+    // Start the image slideshow
+    showNextImage();
 });
 
 // Function to handle image transitions
