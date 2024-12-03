@@ -1,42 +1,50 @@
-
-const images = ["image1.jpg", "image2.jpg"]; 
+// Array of images to display in the surprise
+const images = ["image1.jpg", "image2.jpg"];
 let currentIndex = 0;
 
-
+// DOM Elements
 const imageDisplay = document.getElementById("imageDisplay");
 const surpriseButton = document.getElementById("surpriseButton");
 const backgroundMusic = document.getElementById("backgroundMusic");
 const imageContainer = document.querySelector(".image-container");
 
-
+// Ensure background music plays on page load
 window.onload = () => {
-    backgroundMusic.play();
+    backgroundMusic.play().catch(() => {
+        console.warn("Autoplay was blocked. User interaction required.");
+    });
 };
 
-
+// Event listener for the surprise button
 surpriseButton.addEventListener("click", () => {
-    
+    // Hide the button after it's clicked
     surpriseButton.style.display = "none";
 
-    
+    // Make the image container visible with a border animation
     imageContainer.classList.add("show");
+
+    // Start the image slideshow
     showNextImage();
 });
 
-
+// Function to handle image transitions
 function showNextImage() {
     if (currentIndex < images.length) {
+        // Set the new image source
         imageDisplay.src = images[currentIndex];
-        imageDisplay.classList.remove("visible"); 
-        setTimeout(() => {
-            imageDisplay.classList.add("visible"); 
-        }, 10); 
 
+        // Trigger fade-in effect
+        imageDisplay.classList.remove("visible"); // Reset visibility
+        setTimeout(() => {
+            imageDisplay.classList.add("visible");
+        }, 10); // Delay ensures CSS transition works
+
+        // Move to the next image after 4 seconds
         currentIndex++;
-        setTimeout(showNextImage, 4000); 
+        setTimeout(showNextImage, 4000);
     } else {
-        
+        // Reset index and loop the slideshow
         currentIndex = 0;
-        setTimeout(showNextImage, 4000); 
+        setTimeout(showNextImage, 4000);
     }
 }
